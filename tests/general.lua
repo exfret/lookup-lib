@@ -1,5 +1,5 @@
+-- Check that each lookup only modifies its corresponding lookup table
 local function test_lookups_modify_only_their_table()
-    -- Check that each lookup only modifies its corresponding lookup table
     for _, stage in pairs(LookupLib.stages) do
         for lookup_name, lookup in pairs(stage) do
             -- Load up to lookup_name
