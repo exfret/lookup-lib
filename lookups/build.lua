@@ -1,6 +1,7 @@
 LookupLib.ordered_filenames = {}
 
-table.insert(LookupLib.ordered_filenames, "lookups.1-raw")
+table.insert(LookupLib.ordered_filenames, "lookups.1a-raw")
+table.insert(LookupLib.ordered_filenames, "lookups.1b-trigger")
 local second_stage_names = {
     "combat",
     "entity-create",

@@ -12,5 +12,5 @@ local function test_all_damage_types_have_damage_dealer()
         assert(next(sources) ~= nil)
     end
 end
--- CRITICAL TODO: Impact damage not tested for yet!
+-- CRITICAL TODO: Impact damage not added yet!
 --test_all_damage_types_have_damage_dealer()

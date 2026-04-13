@@ -1,3 +1,0 @@
-local stage = {}
-
-return stage

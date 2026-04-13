@@ -9,6 +9,7 @@ local concat = DataRawLib.key.concat
 local base_prots = DataRawLib.traversal.base_prots
 local prots = DataRawLib.traversal.prots
 local tablize = DataRawLib.traversal.tablize
+local listify = DataRawLib.traversal.listify
 local trigger_lib = DataRawLib.trigger
 
 local stage = {}
@@ -107,7 +108,7 @@ stage.damage_type_sources = function()
         local structs = {}
         trigger_lib.flatten_structs_item(tablize(extract.attack_action(robot)), structs, "")
         local robot_source_key = key("entity", robot.name)
-        add_to_damage_type_sources("cobat-robot", robot_source_key, structs)
+        add_to_damage_type_sources("combat-robot", robot_source_key, structs)
     end
 
     -- 5. equipment
@@ -207,7 +208,7 @@ stage.damage_type_sources = function()
     --  * landmine
     --  * smoke (used with poison cloud)
     --  * direct trigger effect users (like dying_trigger_effect)
-    --  * damage from impacts (note that the "impact" category is special)
+    --  * damage from impacts (note that the "impact" damage category is special)
 
     -- BEGIN "UNREASONABLE" DAMAGE SOURCES
     is_reasonable = false

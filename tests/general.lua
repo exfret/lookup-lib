@@ -15,9 +15,14 @@ local function test_lookups_modify_only_their_table()
             
             local old_lookups = table.deepcopy(LookupLib.lookup)
             lookup()
-            for other_lookup_name, other_lookup_value in pairs(LookupLib.lookup) do
-                if lookup_name ~= other_lookup_name then
-                    assert(table.compare(old_lookups[other_lookup_name], other_lookup_value))
+
+            for _, stage in pairs(LookupLib.stages) do
+                for other_lookup_name, other_lookup in pairs(stage) do
+                    if lookup_name ~= other_lookup_name then
+                        -- Only consider each lookup's main table
+                        local other_lookup_value = LookupLib.lookup[other_lookup_name]
+                        assert(table.compare(old_lookups[other_lookup_name], other_lookup_value))
+                    end
                 end
             end
         end
