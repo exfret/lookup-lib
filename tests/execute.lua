@@ -4,3 +4,5 @@ require("tests.general")
 LookupLib.build()
 
 require("tests.combat")
+require("tests.room")
+require("tests.trigger")

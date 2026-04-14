@@ -5,11 +5,16 @@ local function test_lookups_modify_only_their_table()
             -- Load up to lookup_name
             LookupLib.lookup = {}
             for _, stage in pairs(LookupLib.stages) do
+                local to_break = false
                 for other_lookup_name, other_lookup in pairs(stage) do
                     if other_lookup_name == lookup_name then
+                        to_break = true
                         break
                     end
                     other_lookup()
+                end
+                if to_break then
+                    break
                 end
             end
             

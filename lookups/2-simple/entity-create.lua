@@ -11,12 +11,47 @@ local concat = DataRawLib.key.concat
 local base_prots = DataRawLib.traversal.base_prots
 local prots = DataRawLib.traversal.prots
 local tablize = DataRawLib.traversal.tablize
+local listify = DataRawLib.traversal.listify
 local trigger_lib = DataRawLib.trigger
 
 local stage = {}
 
 -- END repeated header
 
+-- corpses to things that create them upon dying
+-- Format:
+--   corpse_name --> entity_name --> true | nil
+stage.entities_with_corpse = function()
+    local lu = LookupLib.lookup
+
+    lu.entities_with_corpse = {}
+
+    for _, entity in pairs(base_prots("entity")) do
+        for _, corpse in pairs(listify(tablize(entity.corpse))) do
+            lu.entities_with_corpse[corpse] = lu.entities_with_corpse[corpse] or {}
+            lu.entities_with_corpse[corpse][entity.name] = true
+        end
+    end
+end
+
+-- unit-spawners that, when captured, result in this entity
+stage.spawners_capturing_to = function()
+    local lu = LookupLib.lookup
+
+    lu.spawners_capturing_to = {}
+
+    for _, spawner in pairs(prots("unit-spawner")) do
+        local captured = spawner.captured_spawner_entity
+        if captured ~= nil then
+            lu.spawners_capturing_to[captured] = lu.spawners_capturing_to[captured] or {}
+            lu.spawners_capturing_to[captured][spawner.name] = true
+        end
+    end
+end
+
+
+
+-- CRITICAL TODO: Replace with general trigger framework
 -- entities to things that create them on dying, usually with dying_trigger_effect
 -- Format:
 --   entity_name --> prot_key --> true | nil

@@ -7,6 +7,7 @@ local extract = DataRawLib.extract
 local key = DataRawLib.key.key
 local concat = DataRawLib.key.concat
 local base_prots = DataRawLib.traversal.base_prots
+local find_prot = DataRawLib.traversal.find_prot
 local prots = DataRawLib.traversal.prots
 local tablize = DataRawLib.traversal.tablize
 local listify = DataRawLib.traversal.listify
