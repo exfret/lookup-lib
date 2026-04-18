@@ -42,6 +42,12 @@ stage.asteroid_to_places = function()
     end
 end
 
--- TODO: rooms_spawning_entity
+stage.autoplaceable_to_rooms = function()
+    local lu = LookupLib.lookup
+
+    lu.autoplaceable_to_rooms = {}
+
+    -- TODO
+end
 
 return stage

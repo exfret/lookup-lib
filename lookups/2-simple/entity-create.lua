@@ -8,6 +8,7 @@ local categories = DataRawLib.categories
 local extract = DataRawLib.extract
 local key = DataRawLib.key.key
 local concat = DataRawLib.key.concat
+local mtm = DataRawLib.mtm
 local base_prots = DataRawLib.traversal.base_prots
 local prots = DataRawLib.traversal.prots
 local tablize = DataRawLib.traversal.tablize
@@ -35,16 +36,15 @@ stage.entities_with_corpse = function()
 end
 
 -- unit-spawners that, when captured, result in this entity
-stage.spawners_capturing_to = function()
+stage.spawners_with_capture_result = function()
     local lu = LookupLib.lookup
 
-    lu.spawners_capturing_to = {}
+    lu.spawners_with_capture_result = {}
 
     for _, spawner in pairs(prots("unit-spawner")) do
-        local captured = spawner.captured_spawner_entity
-        if captured ~= nil then
-            lu.spawners_capturing_to[captured] = lu.spawners_capturing_to[captured] or {}
-            lu.spawners_capturing_to[captured][spawner.name] = true
+        local capture_result = spawner.captured_spawner_entity
+        if capture_result ~= nil then
+            mtm.insert(lu.spawners_with_capture_result, {capture_result, spawner.name})
         end
     end
 end

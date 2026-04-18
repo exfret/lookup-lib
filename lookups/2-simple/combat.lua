@@ -6,6 +6,7 @@ local categories = DataRawLib.categories
 local extract = DataRawLib.extract
 local key = DataRawLib.key.key
 local concat = DataRawLib.key.concat
+local mtm = DataRawLib.mtm
 local base_prots = DataRawLib.traversal.base_prots
 local find_prot = DataRawLib.traversal.find_prot
 local prots = DataRawLib.traversal.prots
@@ -41,6 +42,26 @@ stage.ammo_category_sources = function()
     end
 end
 
+-- Maps damage types to fires that 
+-- Format:
+--   damage_type_name --> source_info
+-- source_info has keys:
+--   damage: The table with damage info
+--   start_type/start_name: The corresponding start/stop node types/names
+stage.damage_type_to_sources = function()
+    local lu = LookupLib.lookup
+
+    lu.damage_type_to_sources = {}
+
+    -- TODO
+end
+
+
+
+
+-- NOTE: This is old can can probably be removed!
+-- The triggers are now accounted for from the trigger lookup in 1b-trigger
+
 -- Maps damage types to sources that can deal that damage type
 -- Format:
 --   damage_type_name --> prot_key --> list of {amount = damage_amount, source = damage_source, reasonable = true | false}
@@ -50,7 +71,7 @@ end
 -- "damage_source" can then be used for further filtering, especially for determining contexts (i.e.- what's not just possible, but also doable in an automated manner, etc.)
 -- This lookup doesn't cover indirect damage (such as by creating a projectile that then does damage)
 -- That is handled in DepGraphLib by using nodes for these projectiles, too
-stage.damage_type_sources = function()
+--[[stage.damage_type_sources = function()
     local lu = LookupLib.lookup
 
     lu.damage_type_sources = {}
@@ -259,6 +280,6 @@ stage.damage_type_sources = function()
     --  * default_destroyed_dropped_item_trigger on TilePrototype for the same reason as the last
     --  * player_effects on PlanetPrototype's since they can only cause the player damage and going out of my way to see if it's possible for the player to die doesn't seem worth it
     --  * SpacePlatformStarterPackPrototype's trigger, because I only see that being something like a one time thing that's done when a platform is initially created and not even worth doing for the meme
-end
+end]]
 
 return stage

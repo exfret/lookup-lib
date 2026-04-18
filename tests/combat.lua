@@ -2,6 +2,8 @@ local prots = DataRawLib.traversal.prots
 
 local lu = LookupLib.lookup
 
+log("Test: combat")
+
 -- Check that each damage type has something dealing that damage
 -- This is easily untrue with mods, but the tests target space age vanilla anyways
 local function test_all_damage_types_have_damage_dealer()

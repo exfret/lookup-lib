@@ -30,8 +30,11 @@ LookupLib.build = function()
     LookupLib.lookup = {}
 
     for _, stage in pairs(LookupLib.stages) do
-        for _, lookup in pairs(stage) do
+        for lookup_name, lookup in pairs(stage) do
+            log("Loading lookup " .. lookup_name)
             lookup()
         end
     end
+
+    log("Finished loading lookups")
 end

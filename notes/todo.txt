@@ -1,1 +1,2 @@
  - Switch over to MTM inserts!
+ - Write mtm.check and switch to those as well (for reading relationships)

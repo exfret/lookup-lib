@@ -1,3 +1,5 @@
+log("Test: general")
+
 -- Check that each lookup only modifies its corresponding lookup table
 local function test_lookups_modify_only_their_table()
     for _, stage in pairs(LookupLib.stages) do
@@ -17,7 +19,7 @@ local function test_lookups_modify_only_their_table()
                     break
                 end
             end
-            
+
             local old_lookups = table.deepcopy(LookupLib.lookup)
             lookup()
 
