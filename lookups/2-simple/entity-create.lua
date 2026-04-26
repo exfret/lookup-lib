@@ -10,6 +10,7 @@ local key = DataRawLib.key.key
 local concat = DataRawLib.key.concat
 local mtm = DataRawLib.mtm
 local base_prots = DataRawLib.traversal.base_prots
+local find_prot = DataRawLib.traversal.find_prot
 local prots = DataRawLib.traversal.prots
 local tablize = DataRawLib.traversal.tablize
 local listify = DataRawLib.traversal.listify
@@ -31,6 +32,36 @@ stage.entities_with_corpse = function()
         for _, corpse in pairs(listify(tablize(entity.corpse))) do
             lu.entities_with_corpse[corpse] = lu.entities_with_corpse[corpse] or {}
             lu.entities_with_corpse[corpse][entity.name] = true
+        end
+    end
+end
+
+-- Placeable entities to items that create them
+-- Format:
+--   entity_name --> item_name --> true | nil
+stage.placeables = function()
+    local lu = LookupLib.lookup
+
+    lu.placeables = {}
+
+    for _, item in pairs(base_prots("item")) do
+        if item.place_result ~= nil then
+            mtm.insert(lu.placeables, {item.place_result, item.name})
+        end
+    end
+end
+
+-- Plantable entities to items that create them
+-- Format:
+--   entity_name --> item_name --> true | nil
+stage.plantables = function()
+    local lu = LookupLib.lookup
+
+    lu.plantables = {}
+
+    for _, item in pairs(base_prots("item")) do
+        if item.plant_result ~= nil then
+            mtm.insert(lu.plantables, {item.plant_result, item.name})
         end
     end
 end

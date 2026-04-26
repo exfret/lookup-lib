@@ -42,9 +42,10 @@ stage.ammo_category_sources = function()
     end
 end
 
--- Maps damage types to fires that 
+-- Maps damage types to sources causing that damage, other than triggers
+-- This inherently does not repeat prototypes, so we can store the sources as a list
 -- Format:
---   damage_type_name --> source_info
+--   damage_type_name --> list of source_info
 -- source_info has keys:
 --   damage: The table with damage info
 --   start_type/start_name: The corresponding start/stop node types/names
@@ -53,7 +54,45 @@ stage.damage_type_to_sources = function()
 
     lu.damage_type_to_sources = {}
 
-    -- TODO
+    -- Excludes damage trigger effect (those are done separately in trigger lookup)
+    -- Also excludes "special_neutral_target_damage" on streams because I have no clue what it does
+    -- Lightning, since no one controls the weather
+    -- Piercing damage, since it's borderline and not actually damage (would just be used to detect final_action)
+
+    -- Fire inherent damage
+    for _, fire in pairs(prots("fire")) do
+        local damage = fire.damage_per_tick
+        mtm.append(lu.damage_type_to_sources, {damage.type}, {
+            start_type = "entity",
+            start_name = fire.name,
+            damage = damage,
+            edge_desc = "fire-does-damage",
+        })
+    end
+
+    -- Sticker inherent damage
+    for _, sticker in pairs(prots("sticker")) do
+        local damage = sticker.damage_per_tick
+        if damage ~= nil then
+            mtm.append(lu.damage_type_to_sources, {damage.type}, {
+                start_type = "entity",
+                start_name = sticker.name,
+                damage = damage,
+                edge_desc = "sticker-does-damage",
+            })
+        end
+    end
+    
+    -- Impact damage
+    -- Technically, locomotives also do impact damage, but they need rails and in general doesn't seem like it should count
+    for _, car in pairs(prots("car")) do
+        mtm.append(lu.damage_type_to_sources, {"impact"}, {
+            start_type = "entity-operate",
+            start_name = car.name,
+            -- damage is indeterminate
+            edge_desc = "impact-does-damage",
+        })
+    end
 end
 
 
