@@ -4,5 +4,6 @@ require("tests.general")
 LookupLib.build()
 
 require("tests.combat")
+require("tests.entity-create")
 require("tests.room")
 require("tests.trigger")

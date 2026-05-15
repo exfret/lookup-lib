@@ -1,12 +1,13 @@
 -- START repeated header
 -- Maintenance-wise, it's easiest to keep this exact header for all stage 2 lookups, even if not all these are used
 
-local collision_mask_util = require("__core__/lualib/collision-mask-util")
+local collision_mask_util = require("__core__.lualib.collision-mask-util")
 local categories = DataRawLib.categories
 local extract = DataRawLib.extract
 local key = DataRawLib.key.key
 local concat = DataRawLib.key.concat
 local mtm = DataRawLib.mtm
+local room_utils = DataRawLib.room
 local base_prots = DataRawLib.traversal.base_prots
 local find_prot = DataRawLib.traversal.find_prot
 local prots = DataRawLib.traversal.prots
@@ -47,14 +48,37 @@ end
 stage.autoplaceable_to_planets = function()
     local lu = LookupLib.lookup
 
-    lu.autoplaceable_to_planet = {}
+    lu.autoplaceable_to_planets = {}
 
     local check_on_planet = DataRawLib.map_gen.check_on_planet
     
     for _, planet in pairs(prots("planet")) do
         for _, autoplaceable_type in pairs({"entity", "tile"}) do
             for prot_name, _ in pairs(check_on_planet(planet.name, autoplaceable_type)) do
-                mtm.insert(lu.autoplaceable_to_planet, {key(autoplaceable_type, prot_name), planet.name})
+                mtm.insert(lu.autoplaceable_to_planets, {key(autoplaceable_type, prot_name), planet.name})
+            end
+        end
+    end
+end
+
+-- Entities to rooms where they can be built, based off surface restrictions
+-- Format:
+--   entity_name --> room_name --> true | nil
+stage.build_room_restrictions = function()
+    local lu = LookupLib.lookup
+
+    lu.build_room_restrictions = {}
+
+    for _, entity in pairs(base_prots("entity")) do
+        if entity.surface_conditions ~= nil and #entity.surface_conditions > 0 then
+            -- Make sure that this is non-nil even when there are no rooms the entity can be placed in, to signal the existence of surface conditions
+            lu.build_room_restrictions[entity.name] = {}
+
+            for room_key, room in pairs(lu.rooms) do
+                local room_prot = data.raw[room.type][room.name]
+                if room_utils.check_conditions(room_prot, entity.surface_conditions) then
+                    mtm.insert(lu.build_room_restrictions, {entity.name, room_key})
+                end
             end
         end
     end

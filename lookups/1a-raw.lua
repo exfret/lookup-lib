@@ -11,6 +11,7 @@ stage.rooms = function()
     local lu = LookupLib.lookup
 
     lu.rooms = {}
+    
     for _, class in pairs({"planet", "surface"}) do
         for prot_name, prot in pairs(prots(class)) do
             lu.rooms[key(prot)] = {

@@ -1,2 +1,15 @@
+CURRENTLY:
+ - Entity nodes
+
+Tests for:
+ - Entity operate nodes
+    - Still need to do fcats for burner
+    - Tests for new power nodes
+    - PyAL creature modules
+        - Finish 3-compound py_operability_modules lookup (actually probably 2-simple)
+        - Add test that vrauk mk2's are in mk3 building lookup
+        - Add test that vrauk mk2's are not in auog building lookup
+        - Add test that high pressure furnaces aren't in lookup
+
  - Switch over to MTM inserts!
- - Make 1b-trigger back to a stage two lookup?
+ - Make 1b-trigger back to a stage two lookup? (If anything at all)
