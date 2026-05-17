@@ -96,4 +96,34 @@ stage.damage_type_to_sources = function()
     end
 end
 
+-- Groups of damage types that an entity is completely resistant to
+-- Resistance is simply determined by whether the resistance percentage parameter is >= 100%
+-- Format:
+--   entity_name --> resistance_group_name
+-- Also defines resistance groups to the damage types they correspond to (resistance_group_to_damage_types)
+-- Format:
+--   resistance_group_name --> damage_type --> true | nil
+stage.entity_to_resistance_group = function()
+    local lu = LookupLib.lookup
+
+    lu.entity_to_resistance_group = {}
+    lu.resistance_group_to_damage_types = {}
+
+    for _, entity in pairs(base_prots("entity")) do
+        if not categories.without_health[entity.name] then
+            local resistances = {}
+            for _, resistance in pairs(tablize(entity.resistances)) do
+                if resistance.percent or 0 >= 100 then
+                    table.insert(resistances, resistance.type)
+                end
+            end
+
+            table.sort(resistances)
+            local resistances_key = concat(resistances)
+            lu.entity_to_resistance_group[entity.name] = resistances_key
+            mtm.insert(lu.resistance_group_to_damage_types, {resistances_key}, resistances)
+        end
+    end
+end
+
 return stage

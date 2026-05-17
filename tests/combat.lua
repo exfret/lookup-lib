@@ -1,3 +1,4 @@
+local concat = DataRawLib.key.concat
 local prots = DataRawLib.traversal.prots
 
 local lu = LookupLib.lookup
@@ -16,3 +17,11 @@ local function test_all_damage_types_have_damage_dealer()
 end
 -- CRITICAL TODO: Impact damage not added yet!
 --test_all_damage_types_have_damage_dealer()
+
+-- Check that the entity resistance group for "electric" and "fire" resistance exists (should be added by huge asteroids)
+local function test_entity_resistance_group_electric_fire_exists()
+    local my_resistances = {"electric", "fire"}
+    table.sort(my_resistances)
+    assert(lu.resistance_group_to_damage_types[concat(my_resistances)] ~= nil)
+end
+test_entity_resistance_group_electric_fire_exists()

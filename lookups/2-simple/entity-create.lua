@@ -111,7 +111,7 @@ end
 -- Entity to the collision group they correspond to, mostly used for determining entity buildability
 -- Format:
 --   entity_name --> collision_group_name
--- Also defines collision groups to the layers they correspond to
+-- Also defines collision groups to the layers they correspond to (collision_group_to_layers)
 -- Format:
 --   collision_group_name --> layer --> true | nil
 stage.entity_to_collision_group = function()
